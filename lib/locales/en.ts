@@ -167,7 +167,8 @@ export const en = {
     title: 'Why this route?',
     lightingTitle: 'Lighting',
     lightingBody: '{{value}}% of this route runs along streets tagged as lit in OpenStreetMap.',
-    lightingUnknown: 'OpenStreetMap has little lighting data along this route, so we rated it neutral.',
+    lightingUnknown:
+      'OpenStreetMap has little lighting data along this route, so we rated it neutral.',
     lightingAvoided: 'We routed around {{count}} stretch(es) tagged as unlit.',
     activityTitle: 'Activity',
     activityBody: 'Street mix: {{main}}% main roads, {{street}}% smaller streets, {{path}}% paths.',
@@ -248,6 +249,6 @@ export const en = {
     avoid_rejected: 'Unlit areas could not be avoided for this trip.',
     reduced_detail: 'Fewer route details than usual were available.',
   },
-} as const;
+};
 
 export type Translations = typeof en;

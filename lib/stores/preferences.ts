@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -73,7 +73,8 @@ export const usePreferences = create<PreferencesState>()(
         set((state) => ({
           routeFeel,
           // "Through a park" opens up paths, "Main streets" pins the street type.
-          streetType: routeFeel === 'main' ? 'main' : state.streetType === 'main' ? 'none' : state.streetType,
+          streetType:
+            routeFeel === 'main' ? 'main' : state.streetType === 'main' ? 'none' : state.streetType,
         })),
       setActivity: (activity) => set({ activity }),
       setLighting: (lighting) => set({ lighting }),
@@ -100,13 +101,8 @@ export const usePreferences = create<PreferencesState>()(
 
 /** True once persisted preferences have been read, so we can gate the first route. */
 export function usePreferencesHydrated() {
-  const [hydrated, setHydrated] = useState(() => usePreferences.persist.hasHydrated());
-
-  useEffect(() => {
-    const unsubscribe = usePreferences.persist.onFinishHydration(() => setHydrated(true));
-    if (usePreferences.persist.hasHydrated()) setHydrated(true);
-    return unsubscribe;
-  }, []);
-
-  return hydrated;
+  return useSyncExternalStore(
+    (onStoreChange) => usePreferences.persist.onFinishHydration(onStoreChange),
+    () => usePreferences.persist.hasHydrated(),
+  );
 }

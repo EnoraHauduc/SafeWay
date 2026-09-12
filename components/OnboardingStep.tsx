@@ -39,7 +39,7 @@ export function OnboardingStep({
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       className="bg-mist flex-1"
     >
-      <View className="flex-row items-center gap-3 px-5 pt-safe-offset-2">
+      <View className="pt-safe-offset-2 flex-row items-center gap-3 px-5">
         <Pressable
           accessibilityLabel={t('common.back')}
           accessibilityRole="button"
@@ -61,14 +61,12 @@ export function OnboardingStep({
           <Text className="text-ink text-[28px] leading-9" style={{ fontWeight: '800' }}>
             {title}
           </Text>
-          {subtitle ? (
-            <Text className="text-ink-soft text-sm leading-5">{subtitle}</Text>
-          ) : null}
+          {subtitle ? <Text className="text-ink-soft text-sm leading-5">{subtitle}</Text> : null}
         </View>
         {children}
       </ScrollView>
 
-      <View className="border-border bg-mist border-t px-5 pb-safe-offset-3 pt-3">
+      <View className="border-border bg-mist pb-safe-offset-3 border-t px-5 pt-3">
         <CtaButton
           isDisabled={isCtaDisabled}
           label={ctaLabel ?? t('common.next')}

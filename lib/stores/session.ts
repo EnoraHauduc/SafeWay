@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 
-import { HAMBURG_CENTER, requestCurrentPosition, type Coordinates, type LocationStatus } from '@/lib/location';
+import {
+  HAMBURG_CENTER,
+  requestCurrentPosition,
+  type Coordinates,
+  type LocationStatus,
+} from '@/lib/location';
 import {
   findRoutes,
   RoutingError,
@@ -78,7 +83,13 @@ export const useSession = create<SessionState>()((set, get) => ({
     }
 
     const nextId = requestId + 1;
-    set({ requestId: nextId, status: 'searching', errorCode: null, response: null, selectedRouteId: null });
+    set({
+      requestId: nextId,
+      status: 'searching',
+      errorCode: null,
+      response: null,
+      selectedRouteId: null,
+    });
 
     try {
       const response = await findRoutes({
@@ -114,7 +125,13 @@ export const useSession = create<SessionState>()((set, get) => ({
   startNavigation: (activeRouteId) => set({ activeRouteId, selectedRouteId: activeRouteId }),
   endNavigation: () => set({ activeRouteId: null }),
   clearRoutes: () =>
-    set({ status: 'idle', response: null, errorCode: null, selectedRouteId: null, activeRouteId: null }),
+    set({
+      status: 'idle',
+      response: null,
+      errorCode: null,
+      selectedRouteId: null,
+      activeRouteId: null,
+    }),
 }));
 
 export function pickRoute(response: RoutesResponse | null, id: string | null): RouteOption | null {

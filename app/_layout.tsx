@@ -168,7 +168,9 @@ export default function RootLayout() {
       <HeroUINativeProvider>
         <QueryClientProvider client={queryClient}>
           <StartupGate />
-          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: background } }}>
+          <Stack
+            screenOptions={{ headerShown: false, contentStyle: { backgroundColor: background } }}
+          >
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="onboarding" />
             <Stack.Screen name="search" options={{ animation: 'slide_from_bottom' }} />

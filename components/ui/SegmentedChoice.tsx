@@ -45,7 +45,10 @@ export function SegmentedChoice<T extends string>({
               {isSelected ? <View className="bg-amethyst h-2 w-2 rounded-full" /> : null}
             </View>
             <Text
-              className={cn('text-center text-xs leading-4', isSelected ? 'text-ink' : 'text-muted')}
+              className={cn(
+                'text-center text-xs leading-4',
+                isSelected ? 'text-ink' : 'text-muted',
+              )}
               style={{ fontWeight: isSelected ? '700' : '500' }}
             >
               {option.label}

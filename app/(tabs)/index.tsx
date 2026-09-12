@@ -1,5 +1,14 @@
 import { useMemo } from 'react';
-import { Bike, Car, ChevronRight, Footprints, House, Moon, Search, Briefcase } from 'lucide-react-native';
+import {
+  Bike,
+  Car,
+  ChevronRight,
+  Footprints,
+  House,
+  Moon,
+  Search,
+  Briefcase,
+} from 'lucide-react-native';
 import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Switch } from 'heroui-native';
@@ -36,7 +45,13 @@ export default function MapScreen() {
   const lighting = usePreferences((state) => state.lighting);
   const activity = usePreferences((state) => state.activity);
   const setNightOverride = usePreferences((state) => state.setNightOverride);
+  const autoNightMode = usePreferences((state) => state.autoNightMode);
   const night = useNightMode();
+
+  // Flipping the toggle back to what auto detection would say hands control back to auto.
+  const handleNightToggle = (next: boolean) => {
+    setNightOverride(autoNightMode && next === night.afterSunset ? null : next);
+  };
 
   const region = useMemo(
     () => zoomToRegion({ latitude: location.lat, longitude: location.lng }, 14),
@@ -99,7 +114,7 @@ export default function MapScreen() {
         style={{ flex: 1 }}
       />
 
-      <View className="absolute left-0 right-0 top-0 gap-2.5 px-4 pt-safe-offset-2">
+      <View className="pt-safe-offset-2 absolute top-0 right-0 left-0 gap-2.5 px-4">
         <View className="border-border bg-surface flex-row items-center justify-between rounded-2xl border px-3.5 py-2.5">
           <SafeWayLogo size={19} variant="everyday" />
           <View className="flex-row items-center gap-2">
@@ -110,7 +125,7 @@ export default function MapScreen() {
             <Switch
               animation={{ backgroundColor: { value: [BRAND.lilacSoft, BRAND.lime] } }}
               isSelected={night.isNight}
-              onSelectedChange={(next) => setNightOverride(next === night.afterSunset ? null : next)}
+              onSelectedChange={handleNightToggle}
             >
               <Switch.Thumb />
             </Switch>
@@ -134,7 +149,7 @@ export default function MapScreen() {
         ) : null}
       </View>
 
-      <View className="bg-surface absolute bottom-0 left-0 right-0 gap-3 rounded-t-3xl px-4 pb-4 pt-4 shadow-sm">
+      <View className="bg-surface absolute right-0 bottom-0 left-0 gap-3 rounded-t-3xl px-4 pt-4 pb-4 shadow-sm">
         <View className="flex-row gap-2.5">
           <Pressable
             accessibilityRole="button"

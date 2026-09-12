@@ -49,7 +49,9 @@ export default function SavedScreen() {
           accessibilityRole="button"
           className="flex-row items-center gap-3 rounded-xl px-2 py-3"
           onPress={() =>
-            home ? startTrip(home) : router.push({ pathname: '/search', params: { intent: 'home' } })
+            home
+              ? startTrip(home)
+              : router.push({ pathname: '/search', params: { intent: 'home' } })
           }
           style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
         >
@@ -80,7 +82,9 @@ export default function SavedScreen() {
           accessibilityRole="button"
           className="flex-row items-center gap-3 rounded-xl px-2 py-3"
           onPress={() =>
-            work ? startTrip(work) : router.push({ pathname: '/search', params: { intent: 'work' } })
+            work
+              ? startTrip(work)
+              : router.push({ pathname: '/search', params: { intent: 'work' } })
           }
           style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
         >

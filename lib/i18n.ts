@@ -1,4 +1,4 @@
-import i18n from 'i18next';
+import i18n, { changeLanguage, use as attachI18nextPlugin } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { getLocales } from 'expo-localization';
 
@@ -14,7 +14,7 @@ export function deviceLanguage(): Language {
 }
 
 if (!i18n.isInitialized) {
-  void i18n.use(initReactI18next).init({
+  void attachI18nextPlugin(initReactI18next).init({
     resources: {
       en: { translation: en },
       de: { translation: de },
@@ -27,7 +27,7 @@ if (!i18n.isInitialized) {
 }
 
 export function setLanguage(language: Language) {
-  if (i18n.language !== language) void i18n.changeLanguage(language);
+  if (i18n.language !== language) void changeLanguage(language);
 }
 
 export default i18n;

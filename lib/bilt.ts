@@ -1,5 +1,5 @@
-import { createClient, asyncStorage } from '@biltme/backend'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createClient, asyncStorage } from '@biltme/backend';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const bilt = createClient(
   process.env.EXPO_PUBLIC_BILT_URL!,
@@ -12,4 +12,4 @@ export const bilt = createClient(
       detectSessionInUrl: false,
     },
   },
-)
+);

@@ -7,12 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { CtaButton } from '@/components/ui/CtaButton';
 import { ProgressSteps } from '@/components/ui/ProgressSteps';
 import { BRAND } from '@/lib/brand';
-import {
-  activityLabel,
-  extraTimeLabel,
-  lightingLabel,
-  transitLabel,
-} from '@/lib/labels';
+import { activityLabel, extraTimeLabel, lightingLabel, transitLabel } from '@/lib/labels';
 import { usePreferences } from '@/lib/stores/preferences';
 
 interface SummaryRowProps {
@@ -58,7 +53,7 @@ export default function SummaryScreen() {
 
   return (
     <View className="bg-mist flex-1">
-      <View className="px-5 pt-safe-offset-2">
+      <View className="pt-safe-offset-2 px-5">
         <ProgressSteps current={6} total={6} />
       </View>
 
@@ -119,7 +114,7 @@ export default function SummaryScreen() {
         </Pressable>
       </ScrollView>
 
-      <View className="border-border bg-mist border-t px-5 pb-safe-offset-3 pt-3">
+      <View className="border-border bg-mist pb-safe-offset-3 border-t px-5 pt-3">
         <CtaButton
           label={t('summary.openMap')}
           onPress={() => {

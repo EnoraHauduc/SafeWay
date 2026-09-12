@@ -43,7 +43,8 @@ function Row({
     </View>
   );
 
-  if (!onPress) return <View className="border-border bg-surface rounded-2xl border">{content}</View>;
+  if (!onPress)
+    return <View className="border-border bg-surface rounded-2xl border">{content}</View>;
 
   return (
     <Pressable

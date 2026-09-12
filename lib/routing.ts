@@ -86,11 +86,19 @@ export class RoutingError extends Error {
 }
 
 async function readErrorCode(error: unknown): Promise<string> {
-  const context = (error as { context?: unknown }).context;
+  const context =
+    typeof error === 'object' && error !== null && 'context' in error ? error.context : undefined;
   if (context instanceof Response) {
     try {
-      const payload = (await context.json()) as { error?: string };
-      if (payload?.error) return payload.error;
+      const payload: unknown = await context.json();
+      if (
+        typeof payload === 'object' &&
+        payload !== null &&
+        'error' in payload &&
+        typeof payload.error === 'string'
+      ) {
+        return payload.error;
+      }
     } catch {
       // fall through to the generic code
     }
@@ -99,7 +107,7 @@ async function readErrorCode(error: unknown): Promise<string> {
   return 'generic';
 }
 
-async function invoke<T>(name: string, body: unknown): Promise<T> {
+async function invoke<T>(name: string, body: Record<string, unknown>): Promise<T> {
   const { data, error } = await bilt.functions.invoke<T>(name, { body });
   if (error) throw new RoutingError(await readErrorCode(error));
   if (!data) throw new RoutingError('generic');
@@ -145,7 +153,7 @@ export interface FindRoutesInput {
 }
 
 export function findRoutes(input: FindRoutesInput): Promise<RoutesResponse> {
-  return invoke<RoutesResponse>('safeway-routes', input);
+  return invoke<RoutesResponse>('safeway-routes', { ...input });
 }
 
 export function effectivePrefs(

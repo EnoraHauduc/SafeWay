@@ -21,9 +21,7 @@ export function PillToggle<T extends string>({
   className,
 }: PillToggleProps<T>) {
   return (
-    <View
-      className={cn('bg-lilac-tint flex-row items-center gap-1 rounded-2xl p-1', className)}
-    >
+    <View className={cn('bg-lilac-tint flex-row items-center gap-1 rounded-2xl p-1', className)}>
       {options.map((option) => {
         const isSelected = option.value === value;
         return (
