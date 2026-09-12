@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import 'tailwindcss';
+@import 'uniwind';
+
+@import 'heroui-native/styles';
+
+/*
+ * HeroUI Native + Uniwind tokens
+ *
+ * HeroUI component variants compile to semantic utilities such as bg-accent,
+ * text-accent-foreground, bg-default, and text-foreground. The imported
+ * heroui-native/styles package defines the default semantic theme and maps it
+ * to --color-* Tailwind utilities.
+ *
+ * When changing brand colors, override semantic tokens inside Uniwind theme
+ * variants. Do not put --accent only in a plain :root block: web may look
+ * correct through CSS cascade order while Expo Go/native keeps HeroUI's
+ * default blue from the active light/dark theme table.
+ *
+ * Example:
+ *
+ * @layer theme {
+ *   :root {
+ *     @variant light {
+ *       --accent: oklch(0.63 0.18 148);
+ *       --accent-foreground: oklch(0.99 0 0);
+ *       --focus: var(--accent);
+ *     }
+ *
+ *     @variant dark {
+ *       --accent: oklch(0.63 0.18 148);
+ *       --accent-foreground: oklch(0.99 0 0);
+ *       --focus: var(--accent);
+ *     }
+ *   }
+ * }
+ */
+
+@source './node_modules/heroui-native/lib';
+
+/*
+ * Do not remove. HeroUI defines calculated theme colors with color-mix().
+ * On web, useThemeColor may return that unresolved expression. Components
+ * that pass an affected color through HeroUI's colorKit (including outline
+ * and ghost Buttons) then log "[colorKit.RGB] An error occurred" and fall
+ * back to black. Registering every calculated color token makes the browser
+ * resolve color-mix() to oklab() before Uniwind reads it. Native builds
+ * resolve these mixes at build time, so these declarations only change web
+ * behavior.
+ */
+@property --color-accent-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-accent-soft { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-accent-soft-foreground { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-accent-soft-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-background-secondary { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-background-tertiary { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-border-secondary { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-border-tertiary { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-danger-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-danger-soft { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-danger-soft-foreground { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-danger-soft-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-default-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-default-soft { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-default-soft-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-field-border-focus { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-field-border-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-field-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-separator-secondary { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-separator-tertiary { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-success-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-success-soft { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-success-soft-foreground { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-success-soft-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-surface-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-warning-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-warning-soft { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-warning-soft-foreground { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --color-warning-soft-hover { syntax: '<color>'; inherits: true; initial-value: transparent; }

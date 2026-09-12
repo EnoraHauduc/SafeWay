@@ -1,0 +1,78 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true,
+    "react-native": true
+  },
+  "plugins": ["react", "typescript", "import", "unicorn"],
+  "jsPlugins": [
+    { "name": "custom", "specifier": "./eslint-rules/require-asset-exists.js" },
+    { "name": "store", "specifier": "./eslint-rules/no-unstable-zustand-selector.js" },
+    { "name": "compat", "specifier": "./eslint-rules/no-to-sorted.js" },
+    { "name": "media", "specifier": "./eslint-rules/require-explicit-image-size.js" },
+    "eslint-plugin-expo",
+    "eslint-plugin-react-native",
+    "eslint-plugin-react-compiler"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "settings": {
+    "react": { "version": "19.1.0" }
+  },
+  "rules": {
+    "custom/require-asset-exists": "error",
+    "store/no-unstable-zustand-selector": "error",
+    "compat/no-to-sorted": "error",
+    "media/require-explicit-image-size": "error",
+    "unicorn/no-array-sort": "off",
+    "expo/use-dom-exports": "error",
+    "expo/no-env-var-destructuring": "error",
+    "expo/no-dynamic-env-var": "error",
+    "react-native/no-unused-styles": "warn",
+    "react-native/no-single-element-style-arrays": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off",
+    "react/no-unescaped-entities": "warn",
+    "react/jsx-no-constructed-context-values": "error",
+    "react/no-array-index-key": "warn",
+    "react/no-unstable-nested-components": ["error", { "allowAsProps": true }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "react-compiler/react-compiler": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "dist",
+    "context",
+    ".expo",
+    "node_modules",
+    "android/app/build",
+    "uniwind-types.d.ts"
+  ],
+  "overrides": [
+    {
+      "files": ["metro.config.cjs", "*.config.js"],
+      "env": { "node": true }
+    },
+    {
+      "files": ["**/*.d.ts"],
+      "rules": {}
+    }
+  ]
+}

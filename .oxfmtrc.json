@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 100,
+  "ignorePatterns": ["uniwind-types.d.ts"],
+  "sortTailwindcss": {
+    "functions": ["clsx", "cn", "cva", "tw"]
+  }
+}
