@@ -16,7 +16,7 @@ const report = (msg) => {
   console.error(msg);
 };
 
-for (const file of globSync('**/*.css', { exclude: ['**/node_modules/**'] })) {
+for (const file of globSync('**/*.css', { exclude: ['**/node_modules/**', 'dist/**'] })) {
   const code = readFileSync(file);
 
   try {

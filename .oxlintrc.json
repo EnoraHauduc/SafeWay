@@ -60,6 +60,7 @@
   "ignorePatterns": [
     "dist",
     "context",
+    "supabase/functions",
     ".expo",
     "node_modules",
     "android/app/build",
