@@ -40,6 +40,106 @@
 @source './node_modules/heroui-native/lib';
 
 /*
+ * SafeWay brand palette
+ * Lilac veil #B8A4F7 (focus fills) · Violet ink #1C1630 (type, dark surfaces)
+ * Acid lime #C9E265 (accent, one moment per screen) · Amethyst #6244D4 (action)
+ * Mist #F6F4FB (page background)
+ */
+@theme {
+  --color-ink: oklch(0.215 0.055 296);
+  --color-ink-soft: oklch(0.38 0.055 293);
+  --color-lilac: oklch(0.75 0.13 292);
+  --color-lilac-soft: oklch(0.885 0.065 293);
+  --color-lilac-tint: oklch(0.955 0.028 295);
+  --color-lime: oklch(0.885 0.155 118);
+  --color-lime-deep: oklch(0.8 0.15 118);
+  --color-lime-wash: oklch(0.965 0.05 118);
+  --color-amethyst: oklch(0.49 0.2 288);
+  --color-mist: oklch(0.972 0.009 300);
+  --color-night: oklch(0.31 0.085 290);
+}
+
+@layer theme {
+  :root {
+    @variant light {
+      --radius: 0.875rem;
+
+      --background: oklch(0.972 0.009 300);
+      --foreground: oklch(0.215 0.055 296);
+
+      --surface: oklch(100% 0 0);
+      --surface-foreground: var(--foreground);
+      --surface-secondary: oklch(0.962 0.016 296);
+      --surface-secondary-foreground: var(--foreground);
+      --surface-tertiary: oklch(0.94 0.028 295);
+      --surface-tertiary-foreground: var(--foreground);
+
+      --overlay: oklch(100% 0 0);
+      --overlay-foreground: var(--foreground);
+      --backdrop: oklch(0.215 0.055 296 / 45%);
+
+      --muted: oklch(0.53 0.045 293);
+
+      --default: oklch(0.955 0.028 295);
+      --default-foreground: var(--foreground);
+
+      --accent: oklch(0.49 0.2 288);
+      --accent-foreground: oklch(0.99 0 0);
+
+      --field-background: oklch(100% 0 0);
+      --field-foreground: var(--foreground);
+      --field-placeholder: oklch(0.6 0.04 293);
+
+      --segment: oklch(100% 0 0);
+      --segment-foreground: var(--foreground);
+
+      --border: oklch(0.9 0.024 296);
+      --separator: oklch(0.87 0.026 296);
+      --focus: var(--accent);
+      --link: var(--accent);
+    }
+
+    @variant dark {
+      --radius: 0.875rem;
+
+      --background: oklch(0.972 0.009 300);
+      --foreground: oklch(0.215 0.055 296);
+
+      --surface: oklch(100% 0 0);
+      --surface-foreground: var(--foreground);
+      --surface-secondary: oklch(0.962 0.016 296);
+      --surface-secondary-foreground: var(--foreground);
+      --surface-tertiary: oklch(0.94 0.028 295);
+      --surface-tertiary-foreground: var(--foreground);
+
+      --overlay: oklch(100% 0 0);
+      --overlay-foreground: var(--foreground);
+      --backdrop: oklch(0.215 0.055 296 / 45%);
+
+      --muted: oklch(0.53 0.045 293);
+
+      --default: oklch(0.955 0.028 295);
+      --default-foreground: var(--foreground);
+
+      --accent: oklch(0.49 0.2 288);
+      --accent-foreground: oklch(0.99 0 0);
+
+      --field-background: oklch(100% 0 0);
+      --field-foreground: var(--foreground);
+      --field-placeholder: oklch(0.6 0.04 293);
+
+      --segment: oklch(100% 0 0);
+      --segment-foreground: var(--foreground);
+
+      --border: oklch(0.9 0.024 296);
+      --separator: oklch(0.87 0.026 296);
+      --focus: var(--accent);
+      --link: var(--accent);
+    }
+  }
+}
+
+/*
  * Do not remove. HeroUI defines calculated theme colors with color-mix().
  * On web, useThemeColor may return that unresolved expression. Components
  * that pass an affected color through HeroUI's colorKit (including outline
