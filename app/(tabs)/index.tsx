@@ -147,7 +147,6 @@ export default function MapScreen() {
           <Search color={BRAND.amethyst} size={18} />
           <Text className="text-muted flex-1 text-sm">{t('map.searchPlaceholder')}</Text>
         </Pressable>
-
       </View>
 
       <View className="bg-surface absolute right-0 bottom-0 left-0 gap-3 rounded-t-3xl px-4 pt-4 pb-4 shadow-sm">
