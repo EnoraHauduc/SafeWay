@@ -35,7 +35,6 @@ const MODE_ICONS: Record<TravelMode, typeof Footprints> = {
 export default function MapScreen() {
   const { t } = useTranslation();
   const location = useSession((state) => state.location);
-  const locationStatus = useSession((state) => state.locationStatus);
   const setDestination = useSession((state) => state.setDestination);
   const setOrigin = useSession((state) => state.setOrigin);
   const home = useTrips((state) => state.home);
@@ -123,11 +122,18 @@ export default function MapScreen() {
               {t('map.nightPreferences')}
             </Text>
             <Switch
-              animation={{ backgroundColor: { value: [BRAND.lilacSoft, BRAND.lime] } }}
+              isAnimatedStyleActive={false}
               isSelected={night.isNight}
               onSelectedChange={handleNightToggle}
+              style={{ backgroundColor: night.isNight ? BRAND.lime : BRAND.lilacSoft }}
             >
-              <Switch.Thumb />
+              <Switch.Thumb
+                isAnimatedStyleActive={false}
+                style={{
+                  backgroundColor: BRAND.white,
+                  transform: [{ translateX: night.isNight ? 16 : 0 }],
+                }}
+              />
             </Switch>
           </View>
         </View>
@@ -142,11 +148,6 @@ export default function MapScreen() {
           <Text className="text-muted flex-1 text-sm">{t('map.searchPlaceholder')}</Text>
         </Pressable>
 
-        {locationStatus === 'denied' ? (
-          <View className="bg-lilac-tint rounded-2xl px-4 py-2.5">
-            <Text className="text-ink-soft text-xs leading-4">{t('map.locationDenied')}</Text>
-          </View>
-        ) : null}
       </View>
 
       <View className="bg-surface absolute right-0 bottom-0 left-0 gap-3 rounded-t-3xl px-4 pt-4 pb-4 shadow-sm">
