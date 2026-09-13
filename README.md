@@ -2,7 +2,7 @@
 
 SafeWay is a mobile app that finds walking and cycling routes for Hamburg, Germany based on how safe and comfortable a street feels — not just how fast it is. Instead of a single "best" route, SafeWay returns a few options ranked against the traveler's own preferences (lighting, street type, foot traffic), each with a plain-language explanation of the trade-offs.
 
-Built for AI.Women Hamburg by Enora Hauduc, Hannah Kalker, Janne Achenbach, Megha Darda, Dominika Oliinyk
+Built for AI.Women Hamburg Hackathon by Enora Hauduc, Hannah Kalker, Janne Achenbach, Megha Darda, Dominika Oliinyk
 
 ## Try it now
 
