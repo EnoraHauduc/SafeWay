@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { Platform, Text, UIManager, View } from 'react-native';
 import RNMapView, {
   Circle,
@@ -31,12 +31,9 @@ import {
   type MapViewProps,
 } from './MapView.types';
 
-const noop = () => {};
-
 export type {
   LatLng,
   MapCamera,
-  MapCameraBounds,
   MapCircle,
   MapFitOptions,
   MapMarker,
@@ -159,7 +156,6 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
     onRegionChange,
     onRegionChangeComplete,
     mapType = 'standard',
-    cameraBounds,
     showsTraffic = false,
     showsBuildings = true,
     showsCompass = true,
@@ -199,18 +195,6 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
   ref,
 ) {
   const nativeMapRef = useRef<RNMapView>(null);
-
-  useEffect(() => {
-    if (!cameraBounds) return;
-    nativeMapRef.current?.setMapBoundaries(cameraBounds.northEast, cameraBounds.southWest);
-  }, [cameraBounds]);
-
-  const handleMapReady = () => {
-    if (cameraBounds) {
-      nativeMapRef.current?.setMapBoundaries(cameraBounds.northEast, cameraBounds.southWest);
-    }
-    (onMapReady ?? noop)();
-  };
 
   useImperativeHandle(
     ref,
@@ -293,7 +277,7 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
         zoomControlEnabled={zoomControlEnabled}
         minZoomLevel={minZoomLevel}
         maxZoomLevel={maxZoomLevel}
-        onMapReady={handleMapReady}
+        onMapReady={onMapReady}
         onMapLoaded={onMapLoaded}
         onRegionChange={onRegionChange}
         onRegionChangeComplete={onRegionChangeComplete}

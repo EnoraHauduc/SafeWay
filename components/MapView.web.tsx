@@ -22,7 +22,6 @@ import {
   regionToZoom,
   zoomToRegion,
   type LatLng,
-  type MapCameraBounds,
   type MapCircle,
   type MapPolygon,
   type MapPolyline,
@@ -34,7 +33,6 @@ import {
 
 export type {
   LatLng,
-  MapCameraBounds,
   MapCamera,
   MapCircle,
   MapFitOptions,
@@ -81,29 +79,6 @@ function regionsAreClose(left: MapRegion, right: MapRegion) {
     Math.abs(left.latitudeDelta - right.latitudeDelta) < REGION_EPSILON &&
     Math.abs(left.longitudeDelta - right.longitudeDelta) < REGION_EPSILON
   );
-}
-
-function clampRegionToBounds(region: MapRegion, bounds?: MapCameraBounds): MapRegion {
-  if (!bounds) return region;
-
-  const halfLatitudeDelta = region.latitudeDelta / 2;
-  const halfLongitudeDelta = region.longitudeDelta / 2;
-  const minLatitude = bounds.southWest.latitude + halfLatitudeDelta;
-  const maxLatitude = bounds.northEast.latitude - halfLatitudeDelta;
-  const minLongitude = bounds.southWest.longitude + halfLongitudeDelta;
-  const maxLongitude = bounds.northEast.longitude - halfLongitudeDelta;
-
-  return {
-    ...region,
-    latitude:
-      minLatitude <= maxLatitude
-        ? Math.min(Math.max(region.latitude, minLatitude), maxLatitude)
-        : (bounds.southWest.latitude + bounds.northEast.latitude) / 2,
-    longitude:
-      minLongitude <= maxLongitude
-        ? Math.min(Math.max(region.longitude, minLongitude), maxLongitude)
-        : (bounds.southWest.longitude + bounds.northEast.longitude) / 2,
-  };
 }
 
 function tileProvider(mapType?: MapType) {
@@ -229,16 +204,13 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
     zoomLevel,
     minZoomLevel,
     maxZoomLevel,
-    cameraBounds,
     style,
     className,
   },
   ref,
 ) {
-  const [internalRegion, setInternalRegion] = useState(() =>
-    clampRegionToBounds(initialRegion, cameraBounds),
-  );
-  const activeRegion = clampRegionToBounds(region ?? internalRegion, cameraBounds);
+  const [internalRegion, setInternalRegion] = useState(initialRegion);
+  const activeRegion = region ?? internalRegion;
   const activeZoom = zoomLevel ?? regionToZoom(activeRegion);
   const mapHeight = getNumericStyleHeight(style);
   const lastRegionRef = useRef(activeRegion);
@@ -258,18 +230,17 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
 
   const setMapRegion = useCallback(
     (nextRegion: MapRegion) => {
-      const boundedRegion = clampRegionToBounds(nextRegion, cameraBounds);
-      if (regionsAreClose(lastRegionRef.current, boundedRegion)) return;
+      if (regionsAreClose(lastRegionRef.current, nextRegion)) return;
 
-      lastRegionRef.current = boundedRegion;
+      lastRegionRef.current = nextRegion;
 
       if (!region) {
-        setInternalRegion(boundedRegion);
+        setInternalRegion(nextRegion);
       }
-      onRegionChange?.(boundedRegion);
-      onRegionChangeComplete?.(boundedRegion);
+      onRegionChange?.(nextRegion);
+      onRegionChangeComplete?.(nextRegion);
     },
-    [cameraBounds, onRegionChange, onRegionChangeComplete, region],
+    [onRegionChange, onRegionChangeComplete, region],
   );
 
   useEffect(() => {

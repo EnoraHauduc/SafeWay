@@ -87,7 +87,6 @@ export const en = {
     setHome: 'Set home',
     setWork: 'Set work',
     yourLocation: 'Your location',
-    recenterLocation: 'Recenter on my location',
     locating: 'Finding your location…',
     locationDenied: 'Location is off, so routes start from Hamburg centre.',
     yourPreferences: 'Your preferences',

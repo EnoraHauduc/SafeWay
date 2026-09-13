@@ -16,11 +16,6 @@ export type MarkerColor = 'red' | 'blue' | 'green' | 'orange' | 'yellow' | 'purp
 export type CustomMarkerColor = string & { readonly __customMarkerColor?: never };
 export type MarkerColorValue = MarkerColor | CustomMarkerColor;
 
-export interface MapCameraBounds {
-  northEast: LatLng;
-  southWest: LatLng;
-}
-
 export interface MapPointEvent {
   coordinate: LatLng;
 }
@@ -125,7 +120,6 @@ export interface MapViewSharedProps {
   onRegionChangeComplete?: (region: MapRegion) => void;
 
   mapType?: MapType;
-  cameraBounds?: MapCameraBounds;
   showsUserLocation?: boolean;
 
   scrollEnabled?: boolean;
