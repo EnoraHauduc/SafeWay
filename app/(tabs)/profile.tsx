@@ -77,7 +77,7 @@ export default function ProfileScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View className="items-center py-2">
-        <SafeWayLogo size={26} variant="everyday" />
+        <SafeWayLogo size={30} variant="everyday" />
       </View>
 
       <Row

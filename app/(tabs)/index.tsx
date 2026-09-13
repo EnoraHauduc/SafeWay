@@ -113,7 +113,7 @@ export default function MapScreen() {
 
       <View className="pt-safe-offset-2 absolute top-0 right-0 left-0 gap-2.5 px-4">
         <View className="border-border bg-surface flex-row items-center justify-between rounded-2xl border px-3.5 py-2.5">
-          <SafeWayLogo size={19} variant="everyday" />
+          <SafeWayLogo size={23} variant="everyday" />
           <View className="flex-row items-center gap-2">
             <Moon color={night.isNight ? BRAND.amethyst : BRAND.muted} size={16} />
             <Text className="text-ink text-xs" style={{ fontWeight: '600' }}>
