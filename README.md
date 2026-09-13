@@ -17,7 +17,7 @@ Just open the link on your phone or laptop browser to try the full flow: set you
 ## Screenshots
 
 <p float="left">
-  <img src="assets/screenshots/Screenshot_20260913-102415.png" width="200" />
+  <img src="assets/screenshots/Screenshot_20260913-115205.png" width="200" />
   <img src="assets/screenshots/Screenshot_20260913-102421.png" width="200" />
   <img src="assets/screenshots/Screenshot_20260913-102427.png" width="200" />
   <img src="assets/screenshots/Screenshot_20260913-102456.png" width="200" />
