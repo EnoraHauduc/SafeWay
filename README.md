@@ -8,7 +8,7 @@ Built for AI.Women Hamburg by Enora Hauduc, Hannah Kalker, Janne Achenbach, Megh
 
 SafeWay is live and ready to use — no install required:
 
-🔗 **[Launch SafeWay](your-bilt-url-here)**
+🔗 **[Launch SafeWay]((https://96df640f-a1f2-41ad-9d46-ec41e66fb81d.web.bilt.me))**
 
 Just open the link on your phone or laptop browser to try the full flow: set your preferences, search a route, and compare the Recommended / Quieter / Fastest options.
 
