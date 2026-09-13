@@ -130,6 +130,20 @@ export default function MapScreen() {
         className="absolute inset-0"
         initialRegion={region}
         markers={markers}
+        circles={
+          locationStatus === 'granted'
+            ? [
+                {
+                  id: 'current-location-accuracy',
+                  center: { latitude: location.lat, longitude: location.lng },
+                  radius: 120,
+                  strokeColor: BRAND.amethyst,
+                  strokeWidth: 3,
+                  fillColor: 'rgba(98, 68, 212, 0.18)',
+                },
+              ]
+            : []
+        }
         maxZoomLevel={18}
         minZoomLevel={10}
         showsCompass={false}
@@ -167,12 +181,6 @@ export default function MapScreen() {
           <Search color={BRAND.amethyst} size={18} />
           <Text className="text-muted flex-1 text-sm">{t('map.searchPlaceholder')}</Text>
         </Pressable>
-
-        {locationStatus === 'denied' ? (
-          <View className="bg-lilac-tint rounded-2xl px-4 py-2.5">
-            <Text className="text-ink-soft text-xs leading-4">{t('map.locationDenied')}</Text>
-          </View>
-        ) : null}
       </View>
 
       {locationStatus === 'granted' ? (
