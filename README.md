@@ -17,7 +17,21 @@ Just open the link on your phone or laptop browser to try the full flow: set you
 
 ## Screenshots
 
-
+<p float="left">
+  <img src="assets/screenshots/Screenshot_20260913-102415.png" width="200" />
+  <img src="assets/screenshots/Screenshot_20260913-102421.png" width="200" />
+  <img src="assets/screenshots/Screenshot_20260913-102427.png" width="200" />
+  <img src="assets/screenshots/Screenshot_20260913-102456.png" width="200" />
+</p>
+<p float="left">
+  <img src="assets/screenshots/Screenshot_20260913-102503.png" width="200" />
+  <img src="assets/screenshots/Screenshot_20260913-102512.png" width="200" />
+  <img src="assets/screenshots/Screenshot_20260913-102516.png" width="200" />
+  <img src="assets/screenshots/Screenshot_20260913-102520.png" width="200" />
+</p>
+<p float="left">
+  <img src="assets/screenshots/Screenshot_20260913-102523.png" width="200" />
+</p>
 
 ## Why
 Standard navigation apps optimize for time or distance. But the route someone actually wants to take at 11pm is often not the fastest one — it's the one with streetlights, other people around, and no shortcuts through a dark park. SafeWay lets people encode that preference once and get routes that respect it every time, with an automatic "night mode" that tightens preferences after sunset.
