@@ -41,12 +41,12 @@ SafeWay lets people encode that preference once and get routes that respect it e
 
 SafeWay derives a safety/comfort score from open data and layers it on top of a real routing engine:
 
-1. Geocode the origin and destination (OpenRouteService Geocode API).
-2. Fetch street data for the surrounding area from OpenStreetMap via the Overpass API — pulling lit, highway, and related tags for every way in the bounding box.
-3. Classify each street segment as lit/unlit and by type (residential, main road, footpath/isolated) based on those OSM tags.
-4. Build routing constraints from that classification — an avoid layer for the unlit/isolated segments the user wants to steer around.
-5. Call OpenRouteService Directions (foot-walking / cycling-regular profiles) with those constraints via avoid_polygons, generating 2–3 route alternatives: Recommended, Quieter, and Fastest.
-6. Score and compare the alternatives (time delta vs. fastest, % of route lit, street-type mix) to power the "Why this route?" explanation panel.
+1. Geocodes the origin and destination (OpenRouteService Geocode API).
+2. Fetches street data for the surrounding area from OpenStreetMap via the Overpass API — pulling lit, highway, and related tags for every way in the bounding box.
+3. Classifies each street segment as lit/unlit and by type (residential, main road, footpath/isolated) based on those OSM tags.
+4. Builds routing constraints from that classification — an avoid layer for the unlit/isolated segments the user wants to steer around.
+5. Calls OpenRouteService Directions (foot-walking / cycling-regular profiles) with those constraints via avoid_polygons, generating 2–3 route alternatives: Recommended, Quieter, and Fastest.
+6. Scores and compares the alternatives (time delta vs. fastest, % of route lit, street-type mix) to power the "Why this route?" explanation panel.
 
 All of the OSM/Overpass fetching, classification, and ORS calls happen server-side in Supabase Edge Functions, so the ORS API key never ships to the client — the app only ever receives finished route + score data (see Architecture notes).
 
