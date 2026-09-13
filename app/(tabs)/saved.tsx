@@ -45,27 +45,31 @@ export default function SavedScreen() {
       <SectionTitle title={t('saved.places')} />
 
       <View className="border-border bg-surface gap-1 rounded-2xl border p-2">
-        <Pressable
-          accessibilityRole="button"
+        <View
           className="flex-row items-center gap-3 rounded-xl px-2 py-3"
-          onPress={() =>
-            home
-              ? startTrip(home)
-              : router.push({ pathname: '/search', params: { intent: 'home' } })
-          }
-          style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
         >
-          <View className="bg-lilac-tint h-9 w-9 items-center justify-center rounded-full">
-            <House color={BRAND.amethyst} size={17} />
-          </View>
-          <View className="flex-1">
-            <Text className="text-ink text-[15px]" style={{ fontWeight: '700' }}>
-              {t('map.home')}
-            </Text>
-            <Text className="text-ink-soft text-xs" numberOfLines={1}>
-              {home ? home.label : t('saved.setHome')}
-            </Text>
-          </View>
+          <Pressable
+            accessibilityRole="button"
+            className="flex-1 flex-row items-center gap-3"
+            onPress={() =>
+              home
+                ? startTrip(home)
+                : router.push({ pathname: '/search', params: { intent: 'home' } })
+            }
+            style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
+          >
+            <View className="bg-lilac-tint h-9 w-9 items-center justify-center rounded-full">
+              <House color={BRAND.amethyst} size={17} />
+            </View>
+            <View className="flex-1">
+              <Text className="text-ink text-[15px]" style={{ fontWeight: '700' }}>
+                {t('map.home')}
+              </Text>
+              <Text className="text-ink-soft text-xs" numberOfLines={1}>
+                {home ? home.label : t('saved.setHome')}
+              </Text>
+            </View>
+          </Pressable>
           {home ? (
             <Pressable
               accessibilityLabel={t('saved.removePlace')}
@@ -76,29 +80,33 @@ export default function SavedScreen() {
               <Trash2 color={BRAND.muted} size={16} />
             </Pressable>
           ) : null}
-        </Pressable>
+        </View>
 
-        <Pressable
-          accessibilityRole="button"
+        <View
           className="flex-row items-center gap-3 rounded-xl px-2 py-3"
-          onPress={() =>
-            work
-              ? startTrip(work)
-              : router.push({ pathname: '/search', params: { intent: 'work' } })
-          }
-          style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
         >
-          <View className="bg-lilac-tint h-9 w-9 items-center justify-center rounded-full">
-            <Briefcase color={BRAND.amethyst} size={17} />
-          </View>
-          <View className="flex-1">
-            <Text className="text-ink text-[15px]" style={{ fontWeight: '700' }}>
-              {t('map.work')}
-            </Text>
-            <Text className="text-ink-soft text-xs" numberOfLines={1}>
-              {work ? work.label : t('saved.setWork')}
-            </Text>
-          </View>
+          <Pressable
+            accessibilityRole="button"
+            className="flex-1 flex-row items-center gap-3"
+            onPress={() =>
+              work
+                ? startTrip(work)
+                : router.push({ pathname: '/search', params: { intent: 'work' } })
+            }
+            style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
+          >
+            <View className="bg-lilac-tint h-9 w-9 items-center justify-center rounded-full">
+              <Briefcase color={BRAND.amethyst} size={17} />
+            </View>
+            <View className="flex-1">
+              <Text className="text-ink text-[15px]" style={{ fontWeight: '700' }}>
+                {t('map.work')}
+              </Text>
+              <Text className="text-ink-soft text-xs" numberOfLines={1}>
+                {work ? work.label : t('saved.setWork')}
+              </Text>
+            </View>
+          </Pressable>
           {work ? (
             <Pressable
               accessibilityLabel={t('saved.removePlace')}
@@ -109,7 +117,7 @@ export default function SavedScreen() {
               <Trash2 color={BRAND.muted} size={16} />
             </Pressable>
           ) : null}
-        </Pressable>
+        </View>
       </View>
 
       {!home && !work ? (
@@ -162,13 +170,16 @@ export default function SavedScreen() {
           {savedRoutes.map((route) => {
             const distance = formatDistance(route.distanceMeters);
             return (
-              <Pressable
+              <View
                 key={route.id}
-                accessibilityRole="button"
-                className="border-border bg-surface gap-2 rounded-2xl border p-3.5"
-                onPress={() => startTrip(route.destination, route.origin)}
-                style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
+                className="border-border bg-surface rounded-2xl border"
               >
+                <Pressable
+                  accessibilityRole="button"
+                  className="gap-2 p-3.5 pr-10"
+                  onPress={() => startTrip(route.destination, route.origin)}
+                  style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
+                >
                 <View className="flex-row items-start gap-2">
                   <Bookmark color={BRAND.amethyst} size={16} />
                   <View className="flex-1">
@@ -179,14 +190,6 @@ export default function SavedScreen() {
                       <MapPin color={BRAND.muted} size={10} /> {route.origin.name}
                     </Text>
                   </View>
-                  <Pressable
-                    accessibilityLabel={t('common.remove')}
-                    accessibilityRole="button"
-                    hitSlop={8}
-                    onPress={() => removeRoute(route.id)}
-                  >
-                    <Trash2 color={BRAND.muted} size={16} />
-                  </Pressable>
                 </View>
                 <View className="flex-row items-center gap-2">
                   <Text className="text-ink text-xs" style={{ fontWeight: '600' }}>
@@ -208,7 +211,17 @@ export default function SavedScreen() {
                     ))}
                   </View>
                 ) : null}
-              </Pressable>
+                </Pressable>
+                <Pressable
+                  accessibilityLabel={t('common.remove')}
+                  accessibilityRole="button"
+                  className="absolute top-3.5 right-3.5"
+                  hitSlop={8}
+                  onPress={() => removeRoute(route.id)}
+                >
+                  <Trash2 color={BRAND.muted} size={16} />
+                </Pressable>
+              </View>
             );
           })}
         </View>
