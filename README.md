@@ -1,158 +1,69 @@
-# Welcome to your Bilt project
+# SafeWay
 
-[![Built with Bilt](https://img.shields.io/endpoint?url=https%3A%2F%2Fapp.bilt.me%2Fapi%2Fbadge)](https://bilt.me)
+**choose your safeway.**
 
-## Project info
+SafeWay is a mobile app that finds walking and cycling routes for Hamburg, Germany based on how safe and comfortable a street feels — not just how fast it is. Instead of a single "best" route, SafeWay returns a few options ranked against the traveler's own preferences (lighting, street type, foot traffic), each with a plain-language explanation of the trade-offs.
 
-**Project URL**: https://app.bilt.me/agent/96df640f-a1f2-41ad-9d46-ec41e66fb81d
+Built for [hackathon name] by [team/author].
 
-**Project ID**: `96df640f-a1f2-41ad-9d46-ec41e66fb81d`
+## Why
 
-## How can I edit this app?
+Standard navigation apps optimize for time or distance. But the route someone actually wants to take at 11pm is often not the fastest one — it's the one with streetlights, other people around, and no shortcuts through a dark park. SafeWay lets people encode that preference once and get routes that respect it every time, with an automatic "night mode" that tightens preferences after sunset.
 
-There are several ways of editing your application.
+## How it works
 
-**Use Bilt**
+SafeWay doesn't invent its own safety data — it derives a safety/comfort score from open data and layers it on top of a real routing engine:
 
-Simply visit your [Bilt Project](https://app.bilt.me/agent/96df640f-a1f2-41ad-9d46-ec41e66fb81d) and start sending messages. Describe what you want to change, add, or fix in natural language.
+1. **Geocode** the origin and destination (OpenRouteService Geocode API).
+2. **Fetch street data** for the surrounding area from OpenStreetMap via the **Overpass API** — pulling `lit`, `highway`, and related tags for every way in the bounding box.
+3. **Classify** each street segment as lit/unlit and by type (residential, main road, footpath/isolated) based on those OSM tags.
+4. **Build routing constraints** from that classification — an avoid layer for unlit/isolated segments that the user wants to steer around.
+5. **Call OpenRouteService Directions** (`foot-walking` / `cycling-regular` profiles) with those constraints via `avoid_polygons` to generate 2–3 route alternatives: **Recommended**, **Quieter**, and **Fastest**.
+6. **Score and compare** the alternatives (time delta vs. fastest, % of route lit, street-type mix) to power the "Why this route?" explanation panel.
 
-Changes made via Bilt are instant - just send a message and your app updates.
+All of the OSM/Overpass fetching, classification, and ORS calls happen server-side in Supabase Edge Functions, so the ORS API key never ships to the client and the app only ever receives finished route + score data (see [Architecture notes](#architecture-notes) below for why).
 
-**Use your preferred IDE**
+## Core flow
 
-If you want to work locally using your own IDE, you can export the source code from Bilt and make changes directly.
+- **Home/map** — current location, a Night mode toggle, destination search, Home/Work shortcuts, and a transport mode selector (Walking / Bicycle / Transit / Car).
+- **Destination search** — From/To fields (From defaults to current location) plus recent destinations.
+- **Preferences** — toggles for lighting (prefer lit / avoid unlit / no preference), street type (residential / main roads / avoid isolated paths), activity level (foot traffic), and auto night-mode detection after sunset.
+- **Route comparison** — three ranked options, each with duration, distance, and tags like "Well-lit · Moderate activity," plus an expandable **"Why this route?"** panel explaining the trade-off (e.g. "+3 min vs. fastest, but more well-lit streets").
+- **Route detail** — a full breakdown by Lighting / Activity / Time, a disclaimer that this is a personalized suggestion and conditions can change, and a "Use this route" CTA that starts turn-by-turn navigation.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Tech stack
 
-Follow these steps:
+- **App**: React Native + Expo (Expo Router), TypeScript, Zustand, TanStack Query
+- **Maps**: `react-native-maps` / `pigeon-maps`
+- **Backend**: Supabase Edge Functions (Deno) — `supabase/functions/safeway-routes`, `supabase/functions/safeway-geocode`
+- **Routing**: [OpenRouteService](https://openrouteservice.org/) (Directions + Geocode APIs)
+- **Street/lighting data**: [OpenStreetMap](https://www.openstreetmap.org/) via the [Overpass API](https://overpass-api.de/)
 
-```sh
-# Step 1: Export and clone your Bilt project.
-# (Download source from Bilt or connect to your git repo)
-git clone <YOUR_GIT_URL>
+## Architecture notes
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Raw OSM/Overpass GeoJSON for a city-sized bounding box is large and awkward to hand to a mobile client, and `avoid_polygons` payloads for ORS need to be built from that data before every routing call. To keep the app fast and the ORS key private, all of that lives server-side:
 
-# Step 3: Install the necessary dependencies.
-npm install
+- `safeway-routes` tiles the route corridor, fetches/caches Overpass data per tile (with a TTL cache to avoid re-querying Overpass on every request), classifies ways, builds the avoid layer, calls ORS, and returns just the finished routes + comparison stats.
+- `safeway-geocode` proxies ORS geocoding/autocomplete so the client never holds the ORS key.
+- The client only ever deals with small, finished JSON — no raw GeoJSON parsing on-device.
 
-# Step 4: Start the Expo development server.
-npx expo start
-```
-
-Scan the QR code with Expo Go on your phone to see your app running locally.
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- React Native
-- Expo
-- TypeScript
-- AsyncStorage (local data persistence)
-- Expo Router (navigation)
-
-All generated automatically by Bilt from your natural language instructions.
-
-## How can I test this project?
-
-**Option 1: Preview in Bilt (Recommended)**
-
-Open your [Bilt Project](https://app.bilt.me/agent/96df640f-a1f2-41ad-9d46-ec41e66fb81d) and use the built-in preview.
-
-Open **Deploy & Share** to create a revocable preview link or build the app on your iPhone.
-
-**Option 2: Run Locally**
+## Getting started
 
 ```sh
 npm install
 npx expo start
 ```
 
-Then scan the QR code with Expo Go.
+Scan the QR code with Expo Go, or run `npm run ios` / `npm run android`.
 
-## How can I deploy this project?
+### Environment
 
-Open your [Bilt Project](https://app.bilt.me/agent/96df640f-a1f2-41ad-9d46-ec41e66fb81d), select **Deploy & Share**, then choose **Publish to web**, **Release on App Store**, or **Release on Play Store**.
+The Supabase Edge Functions require:
 
-### Deploy with Bilt
+- `ORS_API_KEY` — your OpenRouteService API key
 
-Publishing to web creates a public, installable web app at its own URL. Bilt also guides you through preparing native releases for the App Store and Play Store.
+Set it as a secret on your Supabase project (`supabase secrets set ORS_API_KEY=...`) before deploying the functions in `supabase/functions/`.
 
-## How can I make changes to my app?
+## Disclaimer
 
-**Via Bilt (Easiest)**
-
-Visit your [Bilt Project](https://app.bilt.me/agent/96df640f-a1f2-41ad-9d46-ec41e66fb81d) and send a message describing what you want:
-
-- "Add a dark mode toggle"
-- "Change the button color to blue"
-- "Add a new screen for user settings"
-- "Fix the navigation bar spacing"
-
-Bilt understands natural language and updates your app automatically.
-
-**Via Code**
-
-Export the source, make changes in your IDE, and test locally with `npx expo start`.
-
-## Can I use this with the MCP protocol?
-
-Yes! Bilt is available as a remote MCP server at `https://mcp.bilt.me/mcp`.
-
-Connect any MCP-compatible AI agent (Claude Desktop, OpenClaw, etc.) to programmatically build and modify mobile apps.
-
-**Example MCP integration:**
-
-```json
-{
-  "mcpServers": {
-    "bilt": {
-      "transport": {
-        "type": "sse",
-        "url": "https://mcp.bilt.me/mcp/sse",
-        "headers": {
-          "Authorization": "Bearer YOUR_API_KEY"
-        }
-      }
-    }
-  }
-}
-```
-
-Read more:
-
-- [Bilt MCP Documentation](https://bilt.me/docs)
-- [MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.buildingapplications%2Fmcp/versions/latest)
-
-## Need help?
-
-- 📚 [Bilt Documentation](https://bilt.me/docs)
-- 💬 [Discord Community](https://discord.gg/3FqNgmSYdZ)
-- 🐦 [Twitter Updates](https://twitter.com/biltmeanapp)
-- 📧 Email: support@bilt.me
-
----
-
-<div align="center">
-
-**Built by AI. No code required.** ✨
-
-[Try Bilt](https://bilt.me) • [View Docs](https://bilt.me/docs) • [Docs MCP Server](https://bilt.me/docs/mcp)
-
-</div>
+Route suggestions are based on publicly available OpenStreetMap data and are personalized guidance, not a safety guarantee — actual lighting, foot traffic, and conditions can change and may not always be reflected in the underlying map data.
