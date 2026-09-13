@@ -17,10 +17,10 @@ export const en = {
   },
   welcome: {
     tagline: 'Your way. Safer.',
-    subtitle: 'Find brighter, safer routes wherever life takes you.',
+    // subtitle: 'Find brighter, safer routes wherever life takes you.',
     primary: 'Make it mine',
     secondary: 'Explore first',
-    footer: 'A safer tomorrow can be a brighter today.',
+    footer: 'Find brighter, safer routes wherever life takes you.',
     language: 'Language',
   },
   routeFeel: {

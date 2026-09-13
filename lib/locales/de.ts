@@ -19,10 +19,10 @@ export const de: Translations = {
   },
   welcome: {
     tagline: 'Dein Weg. Sicherer.',
-    subtitle: 'Finde hellere, sicherere Wege – wohin du auch gehst.',
+    // subtitle: 'Finde hellere, sicherere Wege – wohin du auch gehst.',
     primary: 'Für mich einrichten',
     secondary: 'Erst umsehen',
-    footer: 'Ein sicheres Morgen kann ein helleres Heute sein.',
+    footer: 'Finde hellere, sicherere Wege – wohin du auch gehst.',
     language: 'Sprache',
   },
   routeFeel: {
