@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { Moon, Search } from 'lucide-react-native';
+import { Briefcase, House, Moon, Search } from 'lucide-react-native';
 import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Switch } from 'heroui-native';
@@ -18,6 +18,8 @@ export default function MapScreen() {
   const { t } = useTranslation();
   const location = useSession((state) => state.location);
   const locationStatus = useSession((state) => state.locationStatus);
+  const setOrigin = useSession((state) => state.setOrigin);
+  const setDestination = useSession((state) => state.setDestination);
   const home = useTrips((state) => state.home);
   const work = useTrips((state) => state.work);
   const setNightOverride = usePreferences((state) => state.setNightOverride);
@@ -69,6 +71,17 @@ export default function MapScreen() {
     }
     return list;
   }, [home, location, locationStatus, t, work]);
+
+  const openSavedPlace = (place: typeof home, intent: 'home' | 'work') => {
+    if (!place) {
+      router.push({ pathname: '/search', params: { intent } });
+      return;
+    }
+
+    setOrigin(null);
+    setDestination(place);
+    router.push('/finding-routes');
+  };
 
   return (
     <View className="bg-mist flex-1">
@@ -125,6 +138,32 @@ export default function MapScreen() {
         >
           <Search color={BRAND.amethyst} size={18} />
           <Text className="text-muted flex-1 text-sm">{t('map.searchPlaceholder')}</Text>
+        </Pressable>
+      </View>
+
+      <View className="absolute right-4 bottom-4 left-4 flex-row gap-3">
+        <Pressable
+          accessibilityRole="button"
+          className="border-border bg-surface flex-1 flex-row items-center gap-3 rounded-2xl border px-4 py-3.5"
+          onPress={() => openSavedPlace(home, 'home')}
+          style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
+        >
+          <House color={BRAND.amethyst} size={18} />
+          <Text className="text-ink flex-1 text-sm" numberOfLines={1} style={{ fontWeight: '700' }}>
+            {home ? t('map.home') : t('map.setHome')}
+          </Text>
+        </Pressable>
+
+        <Pressable
+          accessibilityRole="button"
+          className="border-border bg-surface flex-1 flex-row items-center gap-3 rounded-2xl border px-4 py-3.5"
+          onPress={() => openSavedPlace(work, 'work')}
+          style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1 })}
+        >
+          <Briefcase color={BRAND.amethyst} size={18} />
+          <Text className="text-ink flex-1 text-sm" numberOfLines={1} style={{ fontWeight: '700' }}>
+            {work ? t('map.work') : t('map.setWork')}
+          </Text>
         </Pressable>
       </View>
     </View>

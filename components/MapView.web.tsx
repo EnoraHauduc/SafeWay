@@ -210,9 +210,9 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
   ref,
 ) {
   const [internalRegion, setInternalRegion] = useState(initialRegion);
+  const [mapHeight, setMapHeight] = useState(() => getNumericStyleHeight(style));
   const activeRegion = region ?? internalRegion;
   const activeZoom = zoomLevel ?? regionToZoom(activeRegion);
-  const mapHeight = getNumericStyleHeight(style);
   const lastRegionRef = useRef(activeRegion);
   const lifecycleCallbacksRef = useRef({ onMapLoaded, onMapReady });
 
@@ -290,7 +290,14 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
   );
 
   return (
-    <View style={style} className={className}>
+    <View
+      style={style}
+      className={className}
+      onLayout={({ nativeEvent }) => {
+        const nextHeight = nativeEvent.layout.height;
+        if (nextHeight > 0 && nextHeight !== mapHeight) setMapHeight(nextHeight);
+      }}
+    >
       <Map
         center={regionToCenter(activeRegion)}
         zoom={activeZoom}
