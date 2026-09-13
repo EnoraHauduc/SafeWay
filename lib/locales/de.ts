@@ -198,6 +198,9 @@ export const de: Translations = {
     noContact: 'Vertrauensperson hinzufügen',
     shareMessage:
       'Hi {{name}}, ich gehe eine SafeWay-Route nach {{destination}}. Ich sollte in etwa {{minutes}} Minuten ankommen.',
+    copied: 'Wegdaten kopiert. Du kannst sie in eine Nachricht an {{name}} einfügen.',
+    shareUnavailable:
+      'Teilen ist hier nicht verfügbar. Bitte versuche es erneut im Browser oder in der App.',
     arriveAt: 'Ankunft bei {{destination}}',
   },
   saved: {

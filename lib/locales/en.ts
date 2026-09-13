@@ -194,6 +194,8 @@ export const en = {
     noContact: 'Add a trusted contact',
     shareMessage:
       "Hi {{name}}, I'm walking a SafeWay route to {{destination}}. I should arrive in about {{minutes}} minutes.",
+    copied: 'Trip details copied. You can paste them into a message to {{name}}.',
+    shareUnavailable: "Sharing isn't available here. Please try again in your browser or app.",
     arriveAt: 'Arriving at {{destination}}',
   },
   saved: {

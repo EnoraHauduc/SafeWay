@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, Footprints, Share2, Square } from 'lucide-react-native';
 import { Pressable, ScrollView, Share, Text, View } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
@@ -16,6 +17,7 @@ import { pickRoute, useSession } from '@/lib/stores/session';
 export default function NavigateScreen() {
   const { t } = useTranslation();
   const mapRef = useRef<MapViewHandle>(null);
+  const [shareFeedback, setShareFeedback] = useState<string | null>(null);
 
   const response = useSession((state) => state.response);
   const activeRouteId = useSession((state) => state.activeRouteId);
@@ -63,13 +65,26 @@ export default function NavigateScreen() {
       router.push('/trusted-contact');
       return;
     }
-    await Share.share({
-      message: t('navigate.shareMessage', {
-        name: trustedContact.name,
-        destination: destinationName,
-        minutes: formatDuration(route.durationSeconds),
-      }),
+
+    setShareFeedback(null);
+    const message = t('navigate.shareMessage', {
+      name: trustedContact.name,
+      destination: destinationName,
+      minutes: formatDuration(route.durationSeconds),
     });
+
+    try {
+      await Share.share({ message });
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') return;
+
+      try {
+        await Clipboard.setStringAsync(message);
+        setShareFeedback(t('navigate.copied', { name: trustedContact.name }));
+      } catch {
+        setShareFeedback(t('navigate.shareUnavailable'));
+      }
+    }
   };
 
   return (
@@ -165,6 +180,15 @@ export default function NavigateScreen() {
           })}
           <Text className="text-muted mt-3 text-[11px] leading-4">{t('why.disclaimer')}</Text>
         </ScrollView>
+
+        {shareFeedback ? (
+          <Text
+            accessibilityLiveRegion="polite"
+            className="text-ink-soft px-1 pb-2 text-center text-xs leading-4"
+          >
+            {shareFeedback}
+          </Text>
+        ) : null}
 
         <View className="pb-safe-offset-3 flex-row gap-2.5 pt-1">
           <Pressable
