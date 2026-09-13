@@ -1,8 +1,7 @@
 import { ChevronRight, Info, Moon, RotateCcw, Sliders, Users } from 'lucide-react-native';
 import type { ReactNode } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Switch } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 
 import { SafeWayLogo } from '@/components/SafeWayLogo';
@@ -94,15 +93,16 @@ export default function ProfileScreen() {
         title={t('profile.nightMode')}
         trailing={
           <Switch
-            animation={{ backgroundColor: { value: [BRAND.lilacSoft, BRAND.lime] } }}
-            isSelected={autoNightMode}
-            onSelectedChange={(next) => {
+            accessibilityLabel={t('profile.nightMode')}
+            ios_backgroundColor={BRAND.lilacSoft}
+            onValueChange={(next) => {
               setAutoNightMode(next);
               setNightOverride(null);
             }}
-          >
-            <Switch.Thumb />
-          </Switch>
+            thumbColor={BRAND.white}
+            trackColor={{ false: BRAND.lilacSoft, true: BRAND.lime }}
+            value={autoNightMode}
+          />
         }
       />
 

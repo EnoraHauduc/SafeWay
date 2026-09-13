@@ -1,7 +1,6 @@
-import { Switch } from 'heroui-native';
 import { Lightbulb } from 'lucide-react-native';
 import { router } from 'expo-router';
-import { Image, Text, useWindowDimensions, View } from 'react-native';
+import { Image, Switch, Text, useWindowDimensions, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { OnboardingStep } from '@/components/OnboardingStep';
@@ -44,12 +43,13 @@ export default function LightingScreen() {
           {t('lighting.toggle')}
         </Text>
         <Switch
-          animation={{ backgroundColor: { value: [BRAND.lilacSoft, BRAND.lime] } }}
-          isSelected={preferLit}
-          onSelectedChange={(next) => setLighting(next ? 'prefer_lit' : 'none')}
-        >
-          <Switch.Thumb />
-        </Switch>
+          accessibilityLabel={t('lighting.toggle')}
+          ios_backgroundColor={BRAND.lilacSoft}
+          onValueChange={(next) => setLighting(next ? 'prefer_lit' : 'none')}
+          thumbColor={BRAND.white}
+          trackColor={{ false: BRAND.lilacSoft, true: BRAND.lime }}
+          value={preferLit}
+        />
       </View>
 
       <View className="gap-2">

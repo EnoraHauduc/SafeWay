@@ -1,7 +1,6 @@
 import { X } from 'lucide-react-native';
 import type { ReactNode } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import { Switch } from 'heroui-native';
+import { Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { CtaButton } from '@/components/ui/CtaButton';
@@ -189,15 +188,16 @@ export default function PreferencesScreen() {
               </Text>
             </View>
             <Switch
-              animation={{ backgroundColor: { value: [BRAND.lilacSoft, BRAND.lime] } }}
-              isSelected={autoNightMode}
-              onSelectedChange={(next) => {
+              accessibilityLabel={t('prefs.nightTitle')}
+              ios_backgroundColor={BRAND.lilacSoft}
+              onValueChange={(next) => {
                 setAutoNightMode(next);
                 setNightOverride(null);
               }}
-            >
-              <Switch.Thumb />
-            </Switch>
+              thumbColor={BRAND.white}
+              trackColor={{ false: BRAND.lilacSoft, true: BRAND.lime }}
+              value={autoNightMode}
+            />
           </View>
         </Section>
 

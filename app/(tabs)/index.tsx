@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Briefcase, House, Moon, Search } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Switch, Text, View } from 'react-native';
 import { router } from 'expo-router';
-import { Switch } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 
 import MapView from '@/components/MapView';
@@ -121,12 +120,13 @@ export default function MapScreen() {
               {t('map.nightPreferences')}
             </Text>
             <Switch
-              animation={{ backgroundColor: { value: [BRAND.lilacSoft, BRAND.lime] } }}
-              isSelected={night.isNight}
-              onSelectedChange={handleNightToggle}
-            >
-              <Switch.Thumb />
-            </Switch>
+              accessibilityLabel={t('map.nightPreferences')}
+              ios_backgroundColor={BRAND.lilacSoft}
+              onValueChange={handleNightToggle}
+              thumbColor={BRAND.white}
+              trackColor={{ false: BRAND.lilacSoft, true: BRAND.lime }}
+              value={night.isNight}
+            />
           </View>
         </View>
 
