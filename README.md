@@ -9,6 +9,7 @@ Built for 🔗 **[AI.WOMEN Hamburg Hackathon](https://ai.hamburg/de/event/ai-wom
 SafeWay is live and ready to use — no install required:
 
 🔗 **[Launch SafeWay](https://96df640f-a1f2-41ad-9d46-ec41e66fb81d.web.bilt.me)**
+📹 **[Demo Video](https://youtu.be/axFjS1mrnR8)**
 
 Just open the link on your phone or laptop browser to try the full flow: set your preferences, search a route, and compare the Recommended / Quieter / Fastest options.
 
