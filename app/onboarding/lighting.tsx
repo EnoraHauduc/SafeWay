@@ -28,16 +28,31 @@ export default function LightingScreen() {
       subtitle={t('lighting.subtitle')}
       title={t('lighting.title')}
     >
-      <Image
-        accessibilityIgnoresInvertColors
-        resizeMode="cover"
-        source={require('@/assets/images/card-main-street.png')}
-        style={{ width: '100%', height: imageHeight, borderRadius: 20 }}
-      />
+      <View className="overflow-hidden rounded-[20px]">
+        <Image
+          accessibilityIgnoresInvertColors
+          resizeMode="cover"
+          source={require('@/assets/images/card-main-street.png')}
+          style={{ width: '100%', height: imageHeight }}
+        />
+        {!preferLit ? (
+          <View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              backgroundColor: 'rgba(24, 18, 48, 0.58)',
+            }}
+          />
+        ) : null}
+      </View>
 
       <View className="border-border bg-surface flex-row items-center gap-3 rounded-2xl border p-4">
         <View className="bg-lilac-tint h-10 w-10 items-center justify-center rounded-full">
-          <Lightbulb color={BRAND.amethyst} size={18} />
+          <Lightbulb color={preferLit ? BRAND.amethyst : BRAND.muted} size={18} />
         </View>
         <Text className="text-ink flex-1 text-[15px] leading-5" style={{ fontWeight: '600' }}>
           {t('lighting.toggle')}
