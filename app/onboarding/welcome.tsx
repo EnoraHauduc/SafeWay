@@ -32,9 +32,6 @@ export default function WelcomeScreen() {
           <Text className="text-ink mt-1 text-[30px] leading-9" style={{ fontWeight: '800' }}>
             {t('welcome.tagline')}
           </Text>
-          <Text className="text-ink-soft max-w-[19rem] text-center text-sm leading-5">
-            {t('welcome.subtitle')}
-          </Text>
         </View>
 
         <Image
