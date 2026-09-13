@@ -89,6 +89,7 @@ export const de: Translations = {
     setHome: 'Zuhause festlegen',
     setWork: 'Arbeit festlegen',
     yourLocation: 'Dein Standort',
+    recenterLocation: 'Auf meinen Standort zentrieren',
     locating: 'Standort wird gesucht…',
     locationDenied: 'Standort ist aus, Routen starten in der Hamburger Innenstadt.',
     yourPreferences: 'Deine Einstellungen',

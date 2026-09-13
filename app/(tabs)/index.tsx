@@ -1,13 +1,14 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import {
   Bike,
+  Briefcase,
   Car,
   ChevronRight,
   Footprints,
   House,
+  LocateFixed,
   Moon,
   Search,
-  Briefcase,
 } from 'lucide-react-native';
 import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
@@ -15,7 +16,12 @@ import { Switch } from 'heroui-native';
 import { useTranslation } from 'react-i18next';
 
 import MapView from '@/components/MapView';
-import { zoomToRegion, type MapMarker } from '@/components/MapView.types';
+import {
+  zoomToRegion,
+  type MapCameraBounds,
+  type MapMarker,
+  type MapViewHandle,
+} from '@/components/MapView.types';
 import { SafeWayLogo } from '@/components/SafeWayLogo';
 import { useNightMode } from '@/hooks/useNightMode';
 import { BRAND } from '@/lib/brand';
@@ -32,8 +38,16 @@ const MODE_ICONS: Record<TravelMode, typeof Footprints> = {
   driving: Car,
 };
 
+const HAMBURG_CAMERA_BOUNDS: MapCameraBounds = {
+  northEast: { latitude: 53.75, longitude: 10.35 },
+  southWest: { latitude: 53.35, longitude: 9.7 },
+};
+
+const LOCATION_ZOOM = 15;
+
 export default function MapScreen() {
   const { t } = useTranslation();
+  const mapRef = useRef<MapViewHandle>(null);
   const location = useSession((state) => state.location);
   const locationStatus = useSession((state) => state.locationStatus);
   const setDestination = useSession((state) => state.setDestination);
@@ -58,15 +72,23 @@ export default function MapScreen() {
     [location],
   );
 
+  const recenterOnLocation = () => {
+    mapRef.current?.animateToRegion(
+      zoomToRegion({ latitude: location.lat, longitude: location.lng }, LOCATION_ZOOM),
+      250,
+    );
+  };
+
   const markers = useMemo<MapMarker[]>(() => {
-    const list: MapMarker[] = [
-      {
+    const list: MapMarker[] = [];
+    if (locationStatus === 'granted') {
+      list.push({
         id: 'me',
         coordinate: { latitude: location.lat, longitude: location.lng },
         title: t('map.yourLocation'),
         color: BRAND.amethyst,
-      },
-    ];
+      });
+    }
     if (home) {
       list.push({
         id: 'home',
@@ -84,7 +106,7 @@ export default function MapScreen() {
       });
     }
     return list;
-  }, [home, location, t, work]);
+  }, [home, location, locationStatus, t, work]);
 
   const startTrip = (place: Place) => {
     setOrigin(null);
@@ -103,14 +125,18 @@ export default function MapScreen() {
   return (
     <View className="bg-mist flex-1">
       <MapView
+        ref={mapRef}
+        cameraBounds={HAMBURG_CAMERA_BOUNDS}
         className="absolute inset-0"
+        initialRegion={region}
         markers={markers}
-        region={region}
+        maxZoomLevel={18}
+        minZoomLevel={10}
         showsCompass={false}
         showsMyLocationButton={false}
         showsPointsOfInterest={false}
         showsScale={false}
-        showsUserLocation
+        showsUserLocation={locationStatus === 'granted'}
         style={{ flex: 1 }}
       />
 
@@ -148,6 +174,18 @@ export default function MapScreen() {
           </View>
         ) : null}
       </View>
+
+      {locationStatus === 'granted' ? (
+        <Pressable
+          accessibilityLabel={t('map.recenterLocation')}
+          accessibilityRole="button"
+          className="border-border bg-surface top-safe-offset-36 absolute right-4 h-12 w-12 items-center justify-center rounded-full border shadow-sm"
+          onPress={recenterOnLocation}
+          style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
+        >
+          <LocateFixed color={BRAND.amethyst} size={22} strokeWidth={2.25} />
+        </Pressable>
+      ) : null}
 
       <View className="bg-surface absolute right-0 bottom-0 left-0 gap-3 rounded-t-3xl px-4 pt-4 pb-4 shadow-sm">
         <View className="flex-row gap-2.5">
