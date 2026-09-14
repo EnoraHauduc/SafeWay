@@ -1,3 +1,7 @@
+## Update:
+Placed 2nd out of 300 participants and won tickets to present at the AI Summit in Hamburg this November 2026!
+
+
 ## SafeWay. Choose your SafeWay.
 
 SafeWay is a mobile app that finds walking and cycling routes for Hamburg, Germany based on how safe and comfortable a street feels — not just how fast it is. Instead of a single "best" route, SafeWay returns a few options ranked against the traveler's own preferences (lighting, street type, foot traffic), each with a plain-language explanation of the trade-offs.
