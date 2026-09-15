@@ -1,5 +1,5 @@
 ## Update:
-Placed 2nd out of 300 participants and won tickets to present at the AI Summit in Hamburg this November 2026!
+Placed 2nd out of 300 participants and won tickets to the AI Summit in Hamburg this November 2026!
 
 <p float="left">
   <img src="assets/images/IMG-20260913-WA0177.jpg" width="200" />
